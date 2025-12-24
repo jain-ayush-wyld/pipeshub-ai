@@ -38,6 +38,7 @@ from app.connectors.sources.servicenow.servicenow.connector import (
     ServiceNowConnector,
 )
 from app.connectors.sources.web.connector import WebConnector
+from app.connectors.sources.github.connector import GithubConnector
 
 
 class ConnectorFactory:
@@ -55,6 +56,7 @@ class ConnectorFactory:
         "servicenow": ServiceNowConnector,
         "web": WebConnector,
         "bookstack": BookStackConnector,
+        "github": GithubConnector
     }
 
     # Beta connector definitions - single source of truth

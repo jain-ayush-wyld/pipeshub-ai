@@ -332,7 +332,7 @@ class RecordEventHandler(BaseEventService):
                     response = await make_api_call(
                         route=f"{connector_url}/api/v1/internal/stream/record/{record_id}", token=token
                     )
-
+                    self.logger.info("tempo response")
                     event_data_for_processor = {
                         "eventType": event_type,
                         "payload": payload
