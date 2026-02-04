@@ -523,7 +523,7 @@ class GithubConnector(BaseConnector):
                 record_updates_batch.append(record_update)
                 # get the file attachments from issue data / pr data
                 # make file records for all except images
-                markdown_content_raw: str = issue.body
+                markdown_content_raw: str = issue.body or ""
                 markdown_content, attachments = await self.clean_github_content(
                     markdown_content_raw
                 )
@@ -938,7 +938,7 @@ class GithubConnector(BaseConnector):
         block_number = 0
         blocks: List[Block] = []
         block_groups: List[BlockGroup] = []
-        markdown_content_raw: str = pull_request.body
+        markdown_content_raw: str = pull_request.body or ""
         # getting modified markdown  content with images as base64
         markdown_with_base64 = await self.embed_images_as_base64(markdown_content_raw)
         self.logger.debug(f"Processed markdown content for issue {pull_request.url}")
@@ -1105,6 +1105,8 @@ class GithubConnector(BaseConnector):
         """
         getting raw markdown content, then getting images as base64 and appending in markdown content
         """
+        if not body_content:
+            return ""
         self.logger.debug(
             "Embedding images as base64 in markdown content in embed_images_as_base64 function"
         )
