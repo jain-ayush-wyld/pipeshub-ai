@@ -662,6 +662,8 @@ class GithubConnector(BaseConnector):
             markdown_content_raw
         )
         self.logger.debug(f"Processed markdown content for issue {issue.url}")
+        # NOTE: Adding record name into Content for record name search Permanently FIX todo
+        markdown_content_with_images_base64 = f"# {issue.title}\n\n{markdown_content_with_images_base64}"
         # get linked attachments to issue->ticket
         existing_attachs = None
         async with self.data_store_provider.transaction() as tx_store:
@@ -942,7 +944,9 @@ class GithubConnector(BaseConnector):
         # getting modified markdown  content with images as base64
         markdown_with_base64 = await self.embed_images_as_base64(markdown_content_raw)
         self.logger.debug(f"Processed markdown content for issue {pull_request.url}")
-        # get linked attachments to issue
+        # NOTE: Adding record name into Content for record name search Permanently FIX todo
+        markdown_with_base64 = f"# {pull_request.title}\n\n{markdown_with_base64}"
+        # get linked attachments to pull request
         existing_attachs = None
         async with self.data_store_provider.transaction() as tx_store:
             existing_attachs = await tx_store.get_records_by_parent(
